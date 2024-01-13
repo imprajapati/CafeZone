@@ -1,0 +1,143 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@page import="com.CafeZone.login.User"%>
+    <% 
+        User u =(User) request.getSession().getAttribute("user");
+         
+        %>
+       <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+          <%@ page import="com.CafeZone.login.User" %>
+          <%@ page import="com.CafeZone.model.Product"%>
+<c:set var="context" value="${pageContext.request.contextPath}" />
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Java House Cafe</title>
+
+    <!--custom icon linkl-->
+         <link rel="stylesheet" href="${context}/Resources/cssfile/fontawesome.min.css">
+         <link rel="stylesheet" href="${context}/Resources/cssfile/fontawesome.css"> 
+         <link rel="stylesheet" href="${context}/Resources/cssfile/all.css">
+         <link rel="stylesheet" href="${context}/Resources/cssfile/all.min.css">
+    
+    
+    <!-- custom css file link  -->
+     <link rel="stylesheet" href="${context}/Resources/css/swiper.min.css">
+    <link rel="stylesheet" href="${context}/Resources/css/style.css"> 
+     <link rel="stylesheet" href="${context}/Resources/cssfile/font.css">
+     
+     
+   <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+<script type="text/javascript">
+
+function pageLoad(){
+	$("#product-id [value='${product.product_type}']").attr("selected","selected");
+	
+}
+</script>
+
+
+</head>
+<body onload=pageLoad()>
+<%-- <%
+User  user = (User)session.getAttribute("user");
+/* Product product= (Product)request.getAttribute("product"); */
+
+%>
+<%if(user.getIsAdmin()==1 && user!=null){ %>
+<a href="${context}/AdminPanel">admin panel</a>
+
+<%} %> --%>
+
+<header class="header">
+
+  <div class="logo"><i class="fab fa-java"></i>JAVA HOUSE CAFE </div>
+    
+    <nav class="navbar">
+         <%if(u!=null && u.getIsAdmin()==1) {%>
+       <a href="${context}/ManageProducts?action=productList">Manage Products</a>
+		<a href="${context}/ManageUser?action=showUserList">Manage Users</a>
+		<%} %>
+		<a href="${context}/ManageProducts?action=showproductlistforuser">Home</a>
+       
+    </nav>
+
+    <div class="icons">
+      <i class="fas fa-sign-out-alt" id="logout-btn" onclick="logout()"></i>
+    </div>
+    
+</header>
+
+<div class="acontainer">
+<form action="${context}/ManageProducts"  method="Post" enctype='multipart/form-data'>
+<input type="hidden" name="productId" value="${product.id}" >
+   
+<input type="hidden" name="action" value="insertOrUpdate">
+<div class="input-boxes">
+<div class="input-box">
+<label>Product Name</label><input type="text" name="productName" value="${product.product_name}" ><br/>
+</div>
+<div class="input-box">
+<label>Upload Image</label><input type="file" name="productImage" value="${product.product_image}" ><br/></div>
+<div class="input-box">
+<label>Product Description</label><input type="text" name="prodDesc" value="${product.product_details}"><br/></div>
+<div class="input-box">
+<label>Price  </label><input type="text" name="price"   value="${product.price}"><br/></div>
+<br/>
+<label for="product-type">Choose product type</label>
+<select name="product-type" id="product-id">
+    <option value="1">Cold drink</option>
+  <option value="2">Pizza</option>
+  <option value="3">Burger</option>
+  <option value="4">Tea</option>
+ <option value="5">Coffee</option>
+<option value="6">Combo</option>
+<option value="7">Dinner</option>
+<option value="8">Ice creame</option>
+<option value="9">Hot Dog</option>
+<option value="10">Pasta</option>
+<option value="11">Thik Sheak</option>
+<option value="12">Others</option>
+</select>
+</div>
+ <div class="button input-box">
+<input type="submit"   value="Submit"><br/>
+</div>
+</form>
+</div>
+
+
+
+<script type="text/javascript">
+
+function logout(){
+		
+	location.replace("${context}/Logout");
+	
+}
+</script>
+<script src="${context}/Resources/js/swiper.min.js"> </script>
+<!-- <script src="${context}/Resources/js/bootstrap.min.js.map"> </script>
+<script src="${context}/Resources/js/jquery.min.js"> </script>  -->
+
+<!-- custom js file link  -->
+<script src="${context}/Resources/js/script.js"></script>
+<script src="${context}/Resources/js/bootstrap.min.js.map"> </script>
+<script src="${context}/Resources/js/jquery.min.js"> </script>
+
+
+
+</body>
+
+
+
+
+
+</html>
